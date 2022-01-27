@@ -1,0 +1,18 @@
+services:
+  tomcat:
+    build:
+      context: .
+      args:
+        AXELOR_VERSION: ${VERSION}
+        AXELOR_DB_USER: ${DB_USER}
+        AXELOR_DB_PASSWORD: ${DB_PASSWORD}
+        AXELOR_DB_URL: jdbc:postgresql:\/\/postgres:5432\/${DB_NAME}
+    ports:
+      - "8080:8080"
+  postgres:
+    image: postgres:9
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+
