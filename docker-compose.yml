@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   tomcat:
     build:
@@ -15,4 +17,9 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - backup_db:/var/lib/postgresql/data
 
+volumes:
+  backup_db:
+    driver: local
