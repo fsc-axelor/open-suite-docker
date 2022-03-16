@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+
   tomcat:
     build:
       context: .
@@ -11,6 +12,12 @@ services:
         AXELOR_DB_URL: jdbc:postgresql:\/\/postgres:5432\/${DB_NAME}
     ports:
       - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - frontend
+      - backend
+
   postgres:
     image: postgres:9
     environment:
@@ -19,7 +26,15 @@ services:
       POSTGRES_DB: ${DB_NAME}
     volumes:
       - backup_db:/var/lib/postgresql/data
+    networks:
+      - backend
 
 volumes:
   backup_db:
     driver: local
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
