@@ -1,4 +1,4 @@
-FROM openjdk:8 AS build
+FROM tomcat:8.5-jdk8
 
 LABEL maintenainer="Flavien Schriever <f.schriever@axelor.com>"
 
@@ -23,11 +23,6 @@ RUN sed -i 's/\(db.default.password =\).*/\1 '$AXELOR_DB_PASSWORD'/' src/main/re
   
 RUN ./gradlew clean build -xtest
 
-FROM tomcat:8.5-jdk8
-
-ARG AXELOR_VERSION=5.4.11
-
-COPY --from=build /work/build/libs/axelor-erp-$AXELOR_VERSION.war /usr/local/tomcat/webapps/ROOT.war
+RUN mv /work/build/libs/axelor-erp-$AXELOR_VERSION.war /usr/local/tomcat/webapps/ROOT.war
 
 EXPOSE 8080
-
